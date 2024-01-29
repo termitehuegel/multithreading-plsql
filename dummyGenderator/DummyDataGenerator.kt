@@ -2,9 +2,146 @@ package dummyGenderator
 
 import kotlin.random.Random
 
+data class Person(
+    val name: String,
+    val firstName: String,
+    val postcode: String,
+    val city: String,
+    val country: String,
+    val occupation: String
+) {
+    override fun toString(): String {
+        return "('$name', '$firstName', '$postcode', '$city', '$country', '$occupation')"
+    }
+}
+
+fun main() {
+    val tableName: String = "PERSON_DATA_A"
+
+    val insertStatement: StringBuilder = StringBuilder();
+    insertStatement.append("INSERT INTO `$tableName` (`name`,`first_name`, `postcode`, `city`, `country`, `occupation`) VALUES \n")
+    for (i in 0..100) {
+        val person: Person =
+            Person(
+                names.random(),
+                firstNames.random(),
+                Random.nextInt(10000, 99999).toString(),
+                cities.random(),
+                countries.random(),
+                occupations.random()
+            )
+        insertStatement.append(person)
+        if (i < 100) {
+            insertStatement.append(",\n")
+        }
+    }
+    insertStatement.append(";")
+    println(insertStatement.toString())
+}
+
+
 // From https://de.wikipedia.org/wiki/Liste_der_h%C3%A4ufigsten_Familiennamen_in_Deutschland
 val names: List<String> = listOf(
-    "Müller", "Schmidt", "Schneider", "Fischer", "Weber", "Meyer", "Wagner", "Becker", "Schulz", "Hoffmann"
+    "Müller",
+    "Schmidt",
+    "Schneider",
+    "Fischer",
+    "Weber",
+    "Meyer",
+    "Wagner",
+    "Becker",
+    "Schulz",
+    "Hoffmann",
+    "Schäfer",
+    "Koch",
+    "Bauer",
+    "Richter",
+    "Klein",
+    "Wolf",
+    "Schröder",
+    "Neumann",
+    "Schwarz",
+    "Zimmermann",
+    "Braun",
+    "Krüger",
+    "Hofmann",
+    "Hartmann",
+    "Lange",
+    "Schmitt",
+    "Werner",
+    "Schmitz",
+    "Krause",
+    "Meier",
+    "Lehmann",
+    "Schmid",
+    "Schulze",
+    "Maier",
+    "Köhler",
+    "Herrmann",
+    "König",
+    "Walter",
+    "Mayer",
+    "Huber",
+    "Kaiser",
+    "Fuchs",
+    "Peters",
+    "Lang",
+    "Scholz",
+    "Möller",
+    "Weiß",
+    "Jung",
+    "Hahn",
+    "Schubert",
+    "Vogel",
+    "Friedrich",
+    "Keller",
+    "Günther",
+    "Frank",
+    "Berger",
+    "Winkler",
+    "Roth",
+    "Beck",
+    "Lorenz",
+    "Baumann",
+    "Franke",
+    "Albrecht",
+    "Schuster",
+    "Simon",
+    "Ludwig",
+    "Böhm",
+    "Winter",
+    "Kraus",
+    "Marin",
+    "Schumacher",
+    "Krämer",
+    "Vogt",
+    "Stein",
+    "Jäger",
+    "Otto",
+    "Sommer",
+    "Groß",
+    "Seidel",
+    "Heinrich",
+    "Brandt",
+    "Haas",
+    "Schreiber",
+    "Graf",
+    "Schulte",
+    "Dietrich",
+    "Ziegler",
+    "Kuhn",
+    "Kühn",
+    "Pohl",
+    "Engel",
+    "Horn",
+    "Busch",
+    "Bergmann",
+    "Thomas",
+    "Voigt",
+    "Sauer",
+    "Arnold",
+    "Wolff",
+    "Pfeiffer"
 )
 
 // From
@@ -28,30 +165,6 @@ val countries: List<String> = listOf(
     "Aserbaidschan",
     "Äthiopien",
     "Australien"
-)
-
-// From https://de.wikipedia.org/wiki/Liste_der_gr%C3%B6%C3%9Ften_St%C3%A4dte_Europas
-val cities: List<String> = listOf(
-    "Istanbul",
-    "Moskau",
-    "London",
-    "Sankt Petersburg",
-    "Berlin",
-    "Madrid",
-    "Kiew",
-    "Rom",
-    "Paris",
-    "Wien",
-    "Minsk",
-    "Hamburg",
-    "Warschau",
-    "Bukarest",
-    "Budapest",
-    "Barcelona",
-    "München",
-    "Charkiw",
-    "Mailand",
-    "Prag"
 )
 
 // From https://de.wikipedia.org/wiki/Liste_von_Ausbildungsberufen
@@ -85,41 +198,110 @@ val occupations: List<String> = listOf(
     "Zupfinstrumentenmacher"
 )
 
-
-fun main() {
-    val tableName: String = "PERSON_DATA_A"
-
-    val insertStatement: StringBuilder = StringBuilder();
-    insertStatement.append("INSERT INTO `$tableName` (`name`,`first_name`, `postcode`, `city`, `country`, `occupation`) VALUES \n")
-    for (i in 0..100) {
-        val person: Person =
-            Person(
-                names.random(),
-                firstNames.random(),
-                Random.nextInt(10000, 99999).toString(),
-                cities.random(),
-                countries.random(),
-                occupations.random()
-            )
-        insertStatement.append(person)
-        if (i < 100) {
-            insertStatement.append(",\n")
-        }
-    }
-    insertStatement.append(";")
-    println(insertStatement.toString())
-}
-
-data class Person(
-    val name: String,
-    val firstName: String,
-    val postcode: String,
-    val city: String,
-    val country: String,
-    val occupation: String
-) {
-    override fun toString(): String {
-        return "('$name', '$firstName', '$postcode', '$city', '$country', '$occupation')"
-    }
-}
+// From https://de.wikipedia.org/wiki/Liste_der_gr%C3%B6%C3%9Ften_St%C3%A4dte_Europas
+val cities: List<String> = listOf(
+    "Istanbul",
+    "Moskau",
+    "London",
+    "Sankt Petersburg",
+    "Berlin",
+    "Madrid",
+    "Kiew",
+    "Rom",
+    "Paris",
+    "Wien",
+    "Minsk",
+    "Hamburg",
+    "Warschau",
+    "Bukarest",
+    "Budapest",
+    "Barcelona",
+    "München",
+    "Charkiw",
+    "Mailand",
+    "Prag",
+    "Sofia",
+    "Kasan",
+    "Nischni Nowgorod",
+    "Belgrad",
+    "Birmingham",
+    "Samara",
+    "Rostow am Don",
+    "Ufa",
+    "Köln",
+    "Woronesch",
+    "Perm",
+    "Odessa",
+    "Wolgograd",
+    "Stockholm",
+    "Dnipro",
+    "Krasnodar",
+    "Amsterdam",
+    "Neapel",
+    "Donezk",
+    "Marseille",
+    "Tirana",
+    "Turin",
+    "Saratow",
+    "Leeds",
+    "Krakau",
+    "Valencia",
+    "Frankfurt am Main",
+    "Zagreb",
+    "Lwiw",
+    "Saporischschja",
+    "Oslo",
+    "Toljatti",
+    "Sevilla",
+    "Chișinău",
+    "Breslau",
+    "Saragossa",
+    "Rotterdam",
+    "Helsinki",
+    "Łódź",
+    "Kopenhagen",
+    "Ischewsk",
+    "Athen",
+    "Palermo",
+    "Stuttgart",
+    "Düsseldorf",
+    "Uljanowsk",
+    "Glasgow",
+    "Leipzig",
+    "Riga",
+    "Machatschkala",
+    "Krywyj Rih",
+    "Jaroslawl",
+    "Göteborg",
+    "Dortmund",
+    "Dublin",
+    "Essen",
+    "Málaga",
+    "Vilnius",
+    "Bremen",
+    "Orenburg",
+    "Manchester",
+    "Sheffield",
+    "Dresden",
+    "Den Haag",
+    "Genua",
+    "Bradford",
+    "Hannover",
+    "Lissabon",
+    "Posen",
+    "Rjasan",
+    "Nabereschnyje Tschelny",
+    "Antwerpen",
+    "Skopje",
+    "Nürnberg",
+    "Astrachan",
+    "Lyon",
+    "Kirow",
+    "Pensa",
+    "Edinburgh",
+    "Balaschicha",
+    "Lipezk",
+    "Duisburg",
+    "Homel"
+)
 
