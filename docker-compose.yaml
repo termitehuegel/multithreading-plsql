@@ -5,6 +5,7 @@ services:
       - 1521:1521
     environment:
       - "ORACLE_PWD=password"
+      - "ORACLE_CHARACTERSET=AL32UTF8"
     volumes:
       - oracle-data:/opt/oracle/oradata
       - ./scripts/:/opt/oracle/scripts/other/
