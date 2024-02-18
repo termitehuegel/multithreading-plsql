@@ -16,11 +16,12 @@ data class Person(
 }
 
 fun main() {
-    val tableName: String = "PERSON_DATA_A"
+    val tableName: String = "PERSON_DATA_D"
+    val values: Int = 10000
 
     val insertStatement: StringBuilder = StringBuilder();
-    insertStatement.append("INSERT INTO `$tableName` (`name`,`first_name`, `postcode`, `city`, `country`, `occupation`) VALUES \n")
-    for (i in 0..100) {
+    insertStatement.append("INSERT INTO $tableName (name,first_name, postcode, city, country, occupation) VALUES \n")
+    for (i in 0..<values) {
         val person: Person =
             Person(
                 names.random(),
@@ -31,7 +32,7 @@ fun main() {
                 occupations.random()
             )
         insertStatement.append(person)
-        if (i < 100) {
+        if (i < values-1) {
             insertStatement.append(",\n")
         }
     }
