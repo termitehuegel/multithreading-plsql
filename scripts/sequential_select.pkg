@@ -1,0 +1,31 @@
+DECLARE
+    match_first_name varchar2(50) := 'Friedrich';
+    start_time timestamp := SYSTIMESTAMP;
+BEGIN
+
+FOR persons_a IN (SELECT * FROM PERSON_DATA_A WHERE first_name=match_first_name)
+LOOP
+    INSERT INTO SELECTED VALUES persons_a;
+END LOOP;
+
+FOR persons_b IN (SELECT * FROM PERSON_DATA_B WHERE first_name=match_first_name )
+LOOP
+    INSERT INTO SELECTED VALUES persons_b;
+END LOOP;
+
+FOR persons_c IN (SELECT * FROM PERSON_DATA_C WHERE first_name=match_first_name)
+LOOP
+    INSERT INTO SELECTED VALUES persons_c;
+END LOOP;
+
+FOR persons_d IN (SELECT * FROM PERSON_DATA_D WHERE first_name=match_first_name)
+LOOP
+    INSERT INTO SELECTED VALUES persons_d;
+END LOOP;
+
+INSERT INTO EXECUTION_TIME VALUES (false, start_time, SYSTIMESTAMP);
+
+COMMIT;
+
+END;
+/

@@ -1,0 +1,62 @@
+DECLARE
+    match_first_name varchar2(50) := 'Friedrich';
+    start_time timestamp := SYSTIMESTAMP;
+BEGIN
+
+DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_A');
+DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_B');
+DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_C');
+DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_D');
+
+
+DBMS_PARALLEL_EXECUTE.CREATE_TASK('SELECT_FROM_PERSON_DATA_A');
+DBMS_PARALLEL_EXECUTE.CREATE_TASK('SELECT_FROM_PERSON_DATA_B');
+DBMS_PARALLEL_EXECUTE.CREATE_TASK('SELECT_FROM_PERSON_DATA_C');
+DBMS_PARALLEL_EXECUTE.CREATE_TASK('SELECT_FROM_PERSON_DATA_D');
+DBMS_PARALLEL_EXECUTE.CREATE_CHUNKS_BY_ROWID('SELECT_FROM_PERSON_DATA_A', 'SYSTEM', 'PERSON_DATA_A', true, 1000000);
+DBMS_PARALLEL_EXECUTE.CREATE_CHUNKS_BY_ROWID('SELECT_FROM_PERSON_DATA_B', 'SYSTEM', 'PERSON_DATA_B', true, 1000000);
+DBMS_PARALLEL_EXECUTE.CREATE_CHUNKS_BY_ROWID('SELECT_FROM_PERSON_DATA_C', 'SYSTEM', 'PERSON_DATA_C', true, 1000000);
+DBMS_PARALLEL_EXECUTE.CREATE_CHUNKS_BY_ROWID('SELECT_FROM_PERSON_DATA_D', 'SYSTEM', 'PERSON_DATA_D', true, 1000000);
+
+
+DBMS_PARALLEL_EXECUTE.RUN_TASK('SELECT_FROM_PERSON_DATA_A', '
+            BEGIN
+                FOR persons_a IN (SELECT * FROM PERSON_DATA_A WHERE first_name=''' || match_first_name ||''' AND ROWID BETWEEN :start_id AND :end_id)
+                LOOP
+                    INSERT INTO SELECTED VALUES persons_a;
+                END LOOP;
+            END;'
+            , DBMS_SQL.native, parallel_level => 1);
+
+DBMS_PARALLEL_EXECUTE.RUN_TASK('SELECT_FROM_PERSON_DATA_B', '
+            BEGIN
+                FOR persons_b IN (SELECT * FROM PERSON_DATA_B WHERE first_name=''' || match_first_name ||''' AND ROWID BETWEEN :start_id AND :end_id)
+                LOOP
+                    INSERT INTO SELECTED VALUES persons_b;
+                END LOOP;
+            END;'
+            , DBMS_SQL.native, parallel_level => 1);
+
+DBMS_PARALLEL_EXECUTE.RUN_TASK('SELECT_FROM_PERSON_DATA_C', '
+            BEGIN
+                FOR persons_c IN (SELECT * FROM PERSON_DATA_C WHERE first_name=''' || match_first_name ||''' AND ROWID BETWEEN :start_id AND :end_id)
+                LOOP
+                    INSERT INTO SELECTED VALUES persons_c;
+                END LOOP;
+            END;'
+            , DBMS_SQL.native, parallel_level => 1);
+
+DBMS_PARALLEL_EXECUTE.RUN_TASK('SELECT_FROM_PERSON_DATA_D', '
+            BEGIN
+                FOR persons_d IN (SELECT * FROM PERSON_DATA_D WHERE first_name=''' || match_first_name ||''' AND ROWID BETWEEN :start_id AND :end_id)
+                LOOP
+                    INSERT INTO SELECTED VALUES persons_d;
+                END LOOP;
+            END;'
+            , DBMS_SQL.native, parallel_level => 1);
+
+INSERT INTO EXECUTION_TIME VALUES (true, start_time, SYSTIMESTAMP);
+COMMIT;
+
+END;
+/
