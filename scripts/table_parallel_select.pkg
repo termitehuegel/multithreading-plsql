@@ -1,0 +1,55 @@
+CREATE OR REPLACE PROCEDURE test1 is
+    start_time timestamp := SYSTIMESTAMP;
+BEGIN
+    sys.dbms_session.sleep(dbms_random.value(1,10));
+    INSERT INTO EXECUTION_TIME VALUES (false, 'Z', null, null, start_time, SYSTIMESTAMP);
+    COMMIT;
+END;
+/
+
+BEGIN
+    DBMS_SCHEDULER.DROP_JOB(job_name => 'TEST_JOB');
+    DBMS_SCHEDULER.DROP_JOB(job_name => 'TEST1_JOB');
+    DBMS_SCHEDULER.DROP_JOB(job_name => 'TEST2_JOB');
+
+    DBMS_SCHEDULER.CREATE_JOB (
+        job_name => 'TEST_JOB',
+        job_type => 'STORED_PROCEDURE',
+        job_action => 'TEST1',
+        number_of_arguments => 0,
+        start_date => NULL,
+        repeat_interval => NULL,
+        end_date => NULL,
+        enabled => FALSE,
+        auto_drop => FALSE,
+        comments => '');
+
+    DBMS_SCHEDULER.CREATE_JOB (
+        job_name => 'TEST_JOB1',
+        job_type => 'STORED_PROCEDURE',
+        job_action => 'TEST1',
+        number_of_arguments => 0,
+        start_date => NULL,
+        repeat_interval => NULL,
+        end_date => NULL,
+        enabled => FALSE,
+        auto_drop => FALSE,
+        comments => '');
+
+    DBMS_SCHEDULER.CREATE_JOB (
+        job_name => 'TEST_JOB2',
+        job_type => 'STORED_PROCEDURE',
+        job_action => 'TEST1',
+        number_of_arguments => 0,
+        start_date => NULL,
+        repeat_interval => NULL,
+        end_date => NULL,
+        enabled => FALSE,
+        auto_drop => FALSE,
+        comments => '');
+
+    DBMS_SCHEDULER.RUN_JOB(job_name => 'TEST_JOB', USE_CURRENT_SESSION => FALSE);
+    DBMS_SCHEDULER.RUN_JOB(job_name => 'TEST_JOB1', USE_CURRENT_SESSION => FALSE);
+    DBMS_SCHEDULER.RUN_JOB(job_name => 'TEST_JOB2', USE_CURRENT_SESSION => FALSE);
+END;
+/
