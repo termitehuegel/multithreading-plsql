@@ -24,6 +24,9 @@ CREATE TABLE SELECTED
 CREATE TABLE EXECUTION_TIME
 (
     parallel   boolean,
+    table_char varchar(1),
+    chunk_start rowid,
+    chunk_end  rowid,
     start_time timestamp,
     end_time   timestamp
 );
