@@ -20,7 +20,7 @@ fun main() {
     val values: Int = 10000
 
     val insertStatement: StringBuilder = StringBuilder();
-    insertStatement.append("INSERT INTO $tableName (name,first_name, postcode, city, country, occupation) VALUES \n")
+    insertStatement.append("INSERT INTO $tableName (name, first_name, postcode, city, country, occupation) VALUES \n")
     for (i in 0..<values) {
         val person: Person =
             Person(
