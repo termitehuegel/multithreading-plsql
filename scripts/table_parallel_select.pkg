@@ -1,12 +1,14 @@
 CREATE OR REPLACE PROCEDURE select_from_a is
     match_first_name varchar2(50) := 'Friedrich';
     start_time timestamp := SYSTIMESTAMP;
+    count_person int;
 BEGIN
     FOR persons_a IN (SELECT * FROM PERSON_DATA_A WHERE first_name=match_first_name)
     LOOP
         INSERT INTO SELECTED VALUES persons_a;
     END LOOP;
-    INSERT INTO EXECUTION_TIME VALUES (true, 'A', null, null, start_time, SYSTIMESTAMP);
+    SELECT COUNT(*) INTO count_person from PERSON_DATA_A;
+    INSERT INTO EXECUTION_TIME VALUES (true, 'A', count_person, null, null, start_time, SYSTIMESTAMP);
     COMMIT;
 END;
 /
@@ -14,12 +16,14 @@ END;
 CREATE OR REPLACE PROCEDURE select_from_b is
     match_first_name varchar2(50) := 'Friedrich';
     start_time timestamp := SYSTIMESTAMP;
+    count_person int;
 BEGIN
     FOR persons_b IN (SELECT * FROM PERSON_DATA_B WHERE first_name=match_first_name)
     LOOP
         INSERT INTO SELECTED VALUES persons_b;
     END LOOP;
-    INSERT INTO EXECUTION_TIME VALUES (true, 'B', null, null, start_time, SYSTIMESTAMP);
+    SELECT COUNT(*) INTO count_person from PERSON_DATA_B;
+    INSERT INTO EXECUTION_TIME VALUES (true, 'B', count_person, null, null, start_time, SYSTIMESTAMP);
     COMMIT;
 END;
 /
@@ -27,12 +31,14 @@ END;
 CREATE OR REPLACE PROCEDURE select_from_c is
     match_first_name varchar2(50) := 'Friedrich';
     start_time timestamp := SYSTIMESTAMP;
+    count_person int;
 BEGIN
     FOR persons_c IN (SELECT * FROM PERSON_DATA_C WHERE first_name=match_first_name)
     LOOP
         INSERT INTO SELECTED VALUES persons_c;
     END LOOP;
-    INSERT INTO EXECUTION_TIME VALUES (true, 'C', null, null, start_time, SYSTIMESTAMP);
+    SELECT COUNT(*) INTO count_person from PERSON_DATA_C;
+    INSERT INTO EXECUTION_TIME VALUES (true, 'C', count_person, null, null, start_time, SYSTIMESTAMP);
     COMMIT;
 END;
 /
@@ -40,12 +46,14 @@ END;
 CREATE OR REPLACE PROCEDURE select_from_d is
     match_first_name varchar2(50) := 'Friedrich';
     start_time timestamp := SYSTIMESTAMP;
+    count_person int;
 BEGIN
     FOR persons_d IN (SELECT * FROM PERSON_DATA_D WHERE first_name=match_first_name)
     LOOP
         INSERT INTO SELECTED VALUES persons_d;
     END LOOP;
-    INSERT INTO EXECUTION_TIME VALUES (true, 'D', null, null, start_time, SYSTIMESTAMP);
+    SELECT COUNT(*) INTO count_person from PERSON_DATA_D;
+    INSERT INTO EXECUTION_TIME VALUES (true, 'D', count_person, null, null, start_time, SYSTIMESTAMP);
     COMMIT;
 END;
 /
