@@ -8,7 +8,7 @@ BEGIN
     DECLARE
         task_found number;
     BEGIN
-        select COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_A';
+        SELECT COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_A';
         IF task_found != 0 THEN
             DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_A');
         END IF;
@@ -16,7 +16,7 @@ BEGIN
     DECLARE
         task_found number;
     BEGIN
-        select COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_B';
+        SELECT COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_B';
         IF task_found != 0 THEN
             DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_B');
         END IF;
@@ -24,7 +24,7 @@ BEGIN
     DECLARE
         task_found number;
     BEGIN
-        select COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_C';
+        SELECT COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_C';
         IF task_found != 0 THEN
             DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_C');
         END IF;
@@ -32,7 +32,7 @@ BEGIN
     DECLARE
         task_found number;
     BEGIN
-        select COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_D';
+        SELECT COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_D';
         IF task_found != 0 THEN
             DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_D');
         END IF;
