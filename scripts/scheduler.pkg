@@ -59,58 +59,62 @@ END;
 /
 
 BEGIN
-    DBMS_SCHEDULER.DROP_JOB(job_name => 'SELECT_FROM_A_JOB');
-    DBMS_SCHEDULER.DROP_JOB(job_name => 'SELECT_FROM_B_JOB');
-    DBMS_SCHEDULER.DROP_JOB(job_name => 'SELECT_FROM_C_JOB');
-    DBMS_SCHEDULER.DROP_JOB(job_name => 'SELECT_FROM_D_JOB');
+    DECLARE
+        job_found number;
+    BEGIN
+        select COUNT(*) into job_found from ALL_SCHEDULER_JOBS WHERE JOB_NAME='SELECT_FROM_A_JOB';
+        IF job_found != 0 THEN
+            DBMS_SCHEDULER.DROP_JOB(job_name => 'SELECT_FROM_A_JOB');
+        END IF;
+    END;
+    DECLARE
+        job_found number;
+    BEGIN
+        select COUNT(*) into job_found from ALL_SCHEDULER_JOBS WHERE JOB_NAME='SELECT_FROM_B_JOB';
+        IF job_found != 0 THEN
+            DBMS_SCHEDULER.DROP_JOB(job_name => 'SELECT_FROM_B_JOB');
+        END IF;
+    END;
+    DECLARE
+        job_found number;
+    BEGIN
+        select COUNT(*) into job_found from ALL_SCHEDULER_JOBS WHERE JOB_NAME='SELECT_FROM_C_JOB';
+        IF job_found != 0 THEN
+            DBMS_SCHEDULER.DROP_JOB(job_name => 'SELECT_FROM_C_JOB');
+        END IF;
+    END;
+    DECLARE
+        job_found number;
+    BEGIN
+        select COUNT(*) into job_found from ALL_SCHEDULER_JOBS WHERE JOB_NAME='SELECT_FROM_D_JOB';
+        IF job_found != 0 THEN
+            DBMS_SCHEDULER.DROP_JOB(job_name => 'SELECT_FROM_D_JOB');
+        END IF;
+    END;
 
     DBMS_SCHEDULER.CREATE_JOB (
         job_name => 'SELECT_FROM_A_JOB',
         job_type => 'STORED_PROCEDURE',
         job_action => 'SELECT_FROM_A',
-        number_of_arguments => 0,
-        start_date => NULL,
-        repeat_interval => NULL,
-        end_date => NULL,
-        enabled => FALSE,
-        auto_drop => FALSE,
-        comments => '');
+        auto_drop => FALSE);
 
     DBMS_SCHEDULER.CREATE_JOB (
         job_name => 'SELECT_FROM_B_JOB',
         job_type => 'STORED_PROCEDURE',
         job_action => 'SELECT_FROM_B',
-        number_of_arguments => 0,
-        start_date => NULL,
-        repeat_interval => NULL,
-        end_date => NULL,
-        enabled => FALSE,
-        auto_drop => FALSE,
-        comments => '');
+        auto_drop => FALSE);
 
     DBMS_SCHEDULER.CREATE_JOB (
         job_name => 'SELECT_FROM_C_JOB',
         job_type => 'STORED_PROCEDURE',
         job_action => 'SELECT_FROM_C',
-        number_of_arguments => 0,
-        start_date => NULL,
-        repeat_interval => NULL,
-        end_date => NULL,
-        enabled => FALSE,
-        auto_drop => FALSE,
-        comments => '');
+        auto_drop => FALSE);
 
     DBMS_SCHEDULER.CREATE_JOB (
         job_name => 'SELECT_FROM_D_JOB',
         job_type => 'STORED_PROCEDURE',
         job_action => 'SELECT_FROM_D',
-        number_of_arguments => 0,
-        start_date => NULL,
-        repeat_interval => NULL,
-        end_date => NULL,
-        enabled => FALSE,
-        auto_drop => FALSE,
-        comments => '');
+        auto_drop => FALSE);
 
     DBMS_SCHEDULER.RUN_JOB(job_name => 'SELECT_FROM_A_JOB', USE_CURRENT_SESSION => FALSE);
     DBMS_SCHEDULER.RUN_JOB(job_name => 'SELECT_FROM_B_JOB', USE_CURRENT_SESSION => FALSE);
