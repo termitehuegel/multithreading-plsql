@@ -112,6 +112,5 @@ BEGIN
 
     INSERT INTO EXECUTION_TIME VALUES (true, null, null, null, null, start_time, SYSTIMESTAMP);
     COMMIT;
-
 END;
 /
