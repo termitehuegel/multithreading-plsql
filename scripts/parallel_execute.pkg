@@ -5,11 +5,38 @@ DECLARE
     start_time_c timestamp;
     start_time_d timestamp;
 BEGIN
-
-DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_A');
-DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_B');
-DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_C');
-DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_D');
+    DECLARE
+        task_found number;
+    BEGIN
+        select COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_A';
+        IF task_found != 0 THEN
+            DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_A');
+        END IF;
+    END;
+    DECLARE
+        task_found number;
+    BEGIN
+        select COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_B';
+        IF task_found != 0 THEN
+            DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_B');
+        END IF;
+    END;
+    DECLARE
+        task_found number;
+    BEGIN
+        select COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_C';
+        IF task_found != 0 THEN
+            DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_C');
+        END IF;
+    END;
+    DECLARE
+        task_found number;
+    BEGIN
+        select COUNT(*) into task_found from DBA_PARALLEL_EXECUTE_TASKS WHERE TASK_NAME='SELECT_FROM_PERSON_DATA_D';
+        IF task_found != 0 THEN
+            DBMS_PARALLEL_EXECUTE.DROP_TASK('SELECT_FROM_PERSON_DATA_D');
+        END IF;
+    END;
 
 DBMS_PARALLEL_EXECUTE.CREATE_TASK('SELECT_FROM_PERSON_DATA_A');
 DBMS_PARALLEL_EXECUTE.CREATE_TASK('SELECT_FROM_PERSON_DATA_B');
@@ -32,7 +59,7 @@ DBMS_PARALLEL_EXECUTE.RUN_TASK('SELECT_FROM_PERSON_DATA_A', '
                 SELECT COUNT(*) INTO count_person from PERSON_DATA_A WHERE ROWID BETWEEN :start_id AND :end_id;
                 INSERT INTO EXECUTION_TIME VALUES (true, ''A'', count_person, :start_id, :end_id, start_time, SYSTIMESTAMP);
             END;'
-            , DBMS_SQL.native, parallel_level => 2);
+            , DBMS_SQL.native, parallel_level => 4);
 INSERT INTO EXECUTION_TIME VALUES (true, 'A', null, null, null, start_time, SYSTIMESTAMP);
 
 start_time_b := SYSTIMESTAMP;
@@ -48,7 +75,7 @@ DBMS_PARALLEL_EXECUTE.RUN_TASK('SELECT_FROM_PERSON_DATA_B', '
                 SELECT COUNT(*) INTO count_person from PERSON_DATA_B WHERE ROWID BETWEEN :start_id AND :end_id;
                 INSERT INTO EXECUTION_TIME VALUES (true, ''B'', count_person, :start_id, :end_id, start_time, SYSTIMESTAMP);
             END;'
-            , DBMS_SQL.native, parallel_level => 2);
+            , DBMS_SQL.native, parallel_level => 4);
 INSERT INTO EXECUTION_TIME VALUES (true, 'B', null, null, null, start_time_b, SYSTIMESTAMP);
 
 start_time_c := SYSTIMESTAMP;
@@ -64,7 +91,7 @@ DBMS_PARALLEL_EXECUTE.RUN_TASK('SELECT_FROM_PERSON_DATA_C', '
                 SELECT COUNT(*) INTO count_person from PERSON_DATA_C WHERE ROWID BETWEEN :start_id AND :end_id;
                 INSERT INTO EXECUTION_TIME VALUES (true, ''C'', count_person, :start_id, :end_id, start_time, SYSTIMESTAMP);
             END;'
-            , DBMS_SQL.native, parallel_level => 2);
+            , DBMS_SQL.native, parallel_level => 4);
 INSERT INTO EXECUTION_TIME VALUES (true, 'C', null, null, null, start_time_c, SYSTIMESTAMP);
 
 start_time_d := SYSTIMESTAMP;
@@ -80,7 +107,7 @@ DBMS_PARALLEL_EXECUTE.RUN_TASK('SELECT_FROM_PERSON_DATA_D', '
                 SELECT COUNT(*) INTO count_person from PERSON_DATA_D WHERE ROWID BETWEEN :start_id AND :end_id;
                 INSERT INTO EXECUTION_TIME VALUES (true, ''D'', count_person, :start_id, :end_id, start_time, SYSTIMESTAMP);
             END;'
-            , DBMS_SQL.native, parallel_level => 2);
+            , DBMS_SQL.native, parallel_level => 4);
 INSERT INTO EXECUTION_TIME VALUES (true, 'D', null, null, null, start_time_d, SYSTIMESTAMP);
 
 INSERT INTO EXECUTION_TIME VALUES (true, null, null, null, null, start_time, SYSTIMESTAMP);
